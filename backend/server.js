@@ -3,143 +3,171 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 const requestIp = require("request-ip");
+const axios = require("axios");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-// CORS config - Allow all origins for now (adjust origin as needed)
-app.use(
-  cors({
-    origin: "*", // For dev, allow all origins; in production, specify exact URL(s)
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
+/* --------------------------------------------------
+   ✅ CORS SETUP — Restrict to trusted origins only
+-------------------------------------------------- */
+const allowedOrigins = [
+  "https://ramkyone-odyssey.in",
+  "https://www.ramkyone-odyssey.in",
+  "http://localhost:5173", // keep for local dev
+];
 
-// Middleware
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
+
 app.use(bodyParser.json());
 app.use(requestIp.mw());
 
-// Health check route
+/* --------------------------------------------------
+   ✅ Health Check
+-------------------------------------------------- */
 app.get("/home", (req, res) => {
-  console.log("GET /home: Health check");
   res.status(200).json("Backend working");
 });
 
-// Nodemailer transporter - use your real Gmail credentials/app password
+/* --------------------------------------------------
+   ✅ Gmail Transporter (Use App Password)
+-------------------------------------------------- */
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "admin@aurealconsulting.com",
-    pass: "ihdt hwnd ipyx iacl", // Replace with your actual Gmail app password
+    user: "info@jagsonspride.in",
+    pass: "xuzk jcuo muly fzmt", // Gmail App password
   },
 });
 
-// Send Auto-Reply Email to user
-const sendAutoReply = async (userEmail, userName) => {
+/* --------------------------------------------------
+   ✅ Auto Reply Email
+-------------------------------------------------- */
+const sendAutoReply = async (email, name) => {
   const mailOptions = {
-    from: `"Canny Aravindam" <admin@aurealconsulting.com>`,
-    to: userEmail,
+    from: `"Jagsons Pride" <info@jagsonspride.in>`,
+    to: email,
     subject: "Thank You for Your Interest!",
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; color: #333;">
-        <div style="background-color: #47bc5ff; color: white; padding: 15px 20px; text-align: center;">
-          <h1 style="margin: 0; font-size: 22px;">Thank You for Contacting Us!</h1>
+      <div style="font-family:Arial;max-width:600px;margin:auto;border:1px solid #ddd;border-radius:8px;">
+        <div style="background:#047bc5;color:#fff;padding:15px;text-align:center;">
+          <h2 style="margin:0;">Thank You for Contacting Us!</h2>
         </div>
-
-        <div style="padding: 20px;">
-          <h2 style="color: #47bc5ff;">Hello ${userName},</h2>
-          <p>Thank you for reaching out to the <strong>CANNY ARAVINDAM</strong> BY Canny Group</strong>!</p>
-          <p>We appreciate your interest and will get in touch with you shortly to assist you further.</p>
-
-          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;" />
-
-          <p style="font-size: 14px; color: #555;">
-            In the meantime, if you have any questions, feel free to call us anytime at 
-            <strong><a href="tel:+919392925831" style="color: #47bc5ff; text-decoration: none;">+91-9392925831</a></strong>.
-          </p>
+        <div style="padding:20px;">
+          <p>Hi ${name},</p>
+          <p>Thank you for your interest in <b>Jagsons Pride</b>. Our team will get in touch soon.</p>
+          <p>For quick assistance, call <a href="tel:+919392925831">+91 93929 25831</a>.</p>
         </div>
-
-        <div style="background-color: #f0f0f0; padding: 15px 20px; font-size: 14px; text-align: center; color: #666;">
-          <p style="margin: 0; font-style: italic;">Warm regards,<br/>Team Canny Group</p>
+        <div style="background:#f5f5f5;padding:10px;text-align:center;">
+          Warm regards,<br/>Team Jagsons Projects
         </div>
-      </div>
-    `,
+      </div>`,
   };
-
   return transporter.sendMail(mailOptions);
 };
 
-// Notify Admin with Form Data
-const notifyAdmin = async (formData) => {
+/* --------------------------------------------------
+   ✅ Admin Notification
+-------------------------------------------------- */
+const notifyAdmin = async (lead) => {
   const mailOptions = {
-    from: `"Canny Aravindam" <admin@aurealconsulting.com>`,
-    to: "ayesha@aurealconsulting.com",
-    subject: "New Lead - Canny Aravindam",
+    from: `"Jagsons Pride" <info@jagsonsprojects.com>`,
+    to: "info@jagsonspride.in",
+    subject: "New Website Lead - Jagsons Pride",
     html: `
-      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
-        <div style="background-color: #047bc5ff; color: white; padding: 15px 20px; text-align: center;">
-          <h1 style="margin: 0; font-size: 24px;">New Inquiry Received</h1>
+      <div style="font-family:Arial;max-width:600px;margin:auto;border:1px solid #ddd;border-radius:8px;">
+        <div style="background:#047bc5;color:#fff;padding:15px;text-align:center;">
+          <h2 style="margin:0;">New Inquiry Received</h2>
         </div>
-
-        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-          <tbody>
-            <tr style="background-color: #f7f7f7;">
-              <td style="padding: 12px; font-weight: bold; border: 1px solid #ddd;">Name</td>
-              <td style="padding: 12px; border: 1px solid #ddd;">${formData.name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 12px; font-weight: bold; border: 1px solid #ddd;">Email</td>
-              <td style="padding: 12px; border: 1px solid #ddd;">${formData.email}</td>
-            </tr>
-            <tr style="background-color: #f7f7f7;">
-              <td style="padding: 12px; font-weight: bold; border: 1px solid #ddd;">Mobile</td>
-              <td style="padding: 12px; border: 1px solid #ddd;">${formData.mobile}</td>
-            </tr>
-            <tr>
-              <td style="padding: 12px; font-weight: bold; border: 1px solid #ddd;">IP Address</td>
-              <td style="padding: 12px; border: 1px solid #ddd;">${formData.ip}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div style="padding: 15px 20px; font-size: 14px; background-color: #f0f0f0; border-top: 1px solid #ddd;">
-          <p style="margin: 0;">
-            Please follow up with this lead as early as possible to provide assistance and further details.
-          </p>
-          <p style="margin: 8px 0 0; font-style: italic; color: #555;">
-            Thank you,<br/>
-            Canny Group
-          </p>
+        <div style="padding:20px;">
+          <p><b>Name:</b> ${lead.name}</p>
+          <p><b>Email:</b> ${lead.email}</p>
+          <p><b>Mobile:</b> ${lead.mobile}</p>
+          <p><b>IP Address:</b> ${lead.ip}</p>
         </div>
-      </div>
-    `,
+      </div>`,
   };
-
   return transporter.sendMail(mailOptions);
 };
 
-// POST route to receive form data and send emails
+/* --------------------------------------------------
+   ✅ TeleCRM Integration
+-------------------------------------------------- */
+const pushToTeleCRM = async (lead) => {
+  const telecrmUrl =
+    "https://api.telecrm.in/enterprise/6737060f317f047677f7378b/autoupdatelead";
+  const telecrmAuth =
+    "Bearer 10d73595-8736-4d8f-b65c-8b02ca4ff4061761198810114:af58db7c-e3f3-48ea-8d3c-590998c739a2";
+
+  const payload = {
+    fields: {
+      name: lead.name,
+      phone: lead.mobile,
+      email: lead.email,
+      ip_address: lead.ip,
+    },
+    actions: [
+      { type: "SYSTEM_NOTE", text: "Lead Source: Jagsons Pride Website" },
+    ],
+  };
+
+  try {
+    const response = await axios.post(telecrmUrl, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: telecrmAuth,
+      },
+    });
+    console.log("✅ TeleCRM Response:", response.data);
+  } catch (err) {
+    console.error("❌ TeleCRM Error:", err.response?.data || err.message);
+  }
+};
+
+/* --------------------------------------------------
+   ✅ Main Lead Route
+-------------------------------------------------- */
 app.post("/home/send-email", async (req, res) => {
   const { name, email, mobile } = req.body;
   const ip = req.clientIp || "Unknown";
 
-  // Basic validation
   if (!name || !email || !mobile) {
-    return res.status(400).json({ error: "Name, email, and mobile are required." });
+    return res
+      .status(400)
+      .json({ error: "Name, email, and mobile are required." });
   }
 
   try {
-    // Send emails in parallel
-    await Promise.all([sendAutoReply(email, name), notifyAdmin({ name, email, mobile, ip })]);
-    console.log("Emails sent successfully");
-    res.status(200).json({ message: "Emails sent successfully" });
-  } catch (error) {
-    console.error("Email sending error:", error);
-    res.status(500).json({ error: "Failed to send emails", details: error.message });
+    console.log("📩 New lead received:", { name, email, mobile, ip });
+    await sendAutoReply(email, name);
+    await notifyAdmin({ name, email, mobile, ip });
+    await pushToTeleCRM({ name, email, mobile, ip });
+
+    res.status(200).json({ message: "Lead submitted successfully!" });
+  } catch (err) {
+    console.error("❌ FULL ERROR:", err);
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: err.message });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+/* --------------------------------------------------
+   ✅ Start Server
+-------------------------------------------------- */
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });

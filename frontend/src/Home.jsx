@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import StudyAbroadForm from "./StudyAbroadForm";
+
 import AdvantageSection from "./AdvantageSection";
-import StudyAbroad from "./StudyAbroad";
 import ProjectOverview from "./ProjectOverview";
 import AmenitiesSection from "./AmenitiesSection";
 import Banner from "./Banner";
 import ConnectivitySection from "./ConnectivitySection";
-import PricingSection from "./PricingSection";
 import WhatsAppButton from "./WhatsAppButton";
 import PopupForm from "./PopupForm";
 import AttentionGrabberButton from "./AttentionGrabberButton";
-import FloorPlans from "./FloorPlans";
+import ConstructionProgress from "./ConstructionProgress";
+import WhyChooseUs from "./WhyChooseUs";
+import FaqSection from "./FaqSection";
+import HeroBanner from "./HeroBanner";
+import PlansSection from "./PlansSection";
+import CustomerReviews from "./CustomerReviews";
 
 const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -23,27 +26,31 @@ const Home = () => {
   return (
     <>
     
-      <StudyAbroadForm />
+      <HeroBanner />
       <AttentionGrabberButton/>
       <div id="project-overview">
         <h2 className="section-heading"></h2>
         <ProjectOverview />
       </div>
-      <div id="amenities">
+      <div id="why-ramky">
+        <h2 className="section-heading"></h2>
+        <WhyChooseUs />
+      </div>
+            <div id="amenities">
         <h2 className="section-heading"></h2>
         <AmenitiesSection />
       </div>
-      <div id="pricing">
+      
+        <PlansSection/>
+      <div id="construction-progress">
         <h2 className="section-heading"></h2>
-        <PricingSection />
+        <ConstructionProgress />
       </div>
-      
-        <FloorPlans/>
-      
-      <div id="nri-support">
+      <div id="NRI-support">
         <h2 className="section-heading"></h2>
         <AdvantageSection />
       </div>
+      
       <div id="banner-section">
         <Banner />
       </div>
@@ -51,10 +58,12 @@ const Home = () => {
         <h2 className="section-heading"></h2>
         <ConnectivitySection />
       </div>
-      <div id="about">
+      <CustomerReviews/>
+      <div id="faq">
         <h2 className="section-heading"></h2>
-        <StudyAbroad />
+        <FaqSection />
       </div>
+      
       <WhatsAppButton />
       <PopupForm show={showPopup} onClose={() => setShowPopup(false)} />
     </>

@@ -22,13 +22,18 @@ const PricingSection = () => {
           <p className="font-semibold text-black">Base Price:</p>
         </div>
         <div className="flex justify-between pt-4 text-left">
-          <p className="text-black">2 BHK</p>
-          <p className="text-black">1250 - 1285 Sq.Ft</p>
-          <p className="text-black">₹58.73 Lacs*</p>
+          <p className="text-black">3 BHK</p>
+          <p className="text-black">1750-1915 Sq.Ft</p>
+          <p className="text-black">₹1.83 Cr*</p>
         </div>
         <div className="flex justify-between pt-4 text-left">
-          <p className="text-black">3 BHK</p>
-          <p className="text-black">1505 - 2300 Sq.Ft</p>
+          <p className="text-black">3.5 BHK</p>
+          <p className="text-black">2160-2180 Sq.Ft</p>
+          <p className="text-black">₹70.71 Lacs*</p>
+        </div>
+        <div className="flex justify-between pt-4 text-left">
+          <p className="text-black">4.5 BHK</p>
+          <p className="text-black">3020 Sq.Ft</p>
           <p className="text-black">₹70.71 Lacs*</p>
         </div>
        </div>

@@ -1,112 +1,137 @@
 import React, { useState, useEffect } from "react";
+
+/* ================= IMAGES ================= */
+
 import amenity1 from "./assets/badminton.webp";
 import amenity2 from "./assets/basketball.webp";
 import amenity3 from "./assets/gym.webp";
 import amenity4 from "./assets/hall.webp";
 import amenity5 from "./assets/play_area.webp";
-import amenity6 from "./assets/swimming_pool.webp";
+import amenity6 from "./assets/jagsons-pride-rooftop-swimming-pool.jpg";
 import amenity7 from "./assets/walking_area.webp";
 import amenity8 from "./assets/spa.webp";
 import amenity9 from "./assets/yoga.webp";
+import amenity10 from "./assets/jagsons-pride-EV-charging.webp";
+import amenity11 from "./assets/jagsons-pride-driver-lounge.jpg";
+import amenity12 from "./assets/jagsons-pride-entrance-gate.jpg";
+import amenity13 from "./assets/jagsons-pride-cricket-practice-net.webp";
+import amenity14 from "./assets/jagsons-pride-guest-rooms.webp";
 
-// Block-wise amenities based on layout map
-const amenities = [
-   
+/* ================= DATA ================= */
+
+const amenitiesData = [
   {
     id: "clubhouse",
-    label: "G+4 FLOORS(CLUBHOUSE) AMENITIES",
-    items: [
-      "Multli-Purpose Hall",
-      "Swimming Pool",
-      "Indoor Badminton Court",
-      "Co-Working Space",
-      "Guest Rooms",
-      "Indoor Gym",
-      "Luxury Waiting Lounges", "Rooftop Garden", "Part Deck Area", "Spa & Salon", "Terrace Party Zone", "Yoga", "Indoor Games", "Double Height Entrance Lobby", "Prvision for Supermarket", "Kids Play Area", "Community Office", "Space for Creche"
+    label: "CLUBHOUSE AMENITIES",
+    images: [
+      { img: amenity3, title: "Air Conditioned Gymnasium" },
+      { img: amenity6, title: "Rooftop Swimming Pool" },
+      { img: amenity4, title: "Multipurpose Banquet Hall" },
+      { img: amenity9, title: "Meditation & Yoga Hall" },
+      { img: amenity8, title: "Spa & Wellness Zone" },
+      { img: amenity11, title: "Drivers Lounge" },
+      { img: amenity14, title: "Guest Rooms" },
+      { img: amenity12, title: "Premium Entrance Lobby" },
+      { img: amenity10, title: "EV Charging Stations" },
+    ],
+  },
+  {
+    id: "outdoor",
+    label: "OUTDOOR AMENITIES",
+    images: [
+      { img: amenity2, title: "Half Basketball Court" },
+      { img: amenity13, title: "Cricket Practice Net" },
+      { img: amenity1, title: "Badminton Court" },
+      { img: amenity5, title: "Kids Play Area" },
+      { img: amenity7, title: "Walking Track" },
+      { img: amenity12, title: "Senior Citizen Plaza" },
     ],
   },
 ];
 
-const images = [
-  amenity1,
-  amenity2,
-  amenity3,
-  amenity4,
-  amenity5,
-  amenity6,
-  amenity7,
-  amenity8,
-  amenity9,
-];
+/* ================= COMPONENT ================= */
 
 const AmenitiesSection = () => {
   const [selected, setSelected] = useState("clubhouse");
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  // SAFE active tab
+  const activeTab =
+    amenitiesData.find((a) => a.id === selected) || amenitiesData[0];
+
+  /* ---------- Auto Slide ---------- */
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    setCurrentIndex(0);
 
-  const visibleImages = [
-    images[currentImageIndex],
-    images[(currentImageIndex + 1) % images.length],
-    images[(currentImageIndex + 2) % images.length],
-  ];
+    const interval = setInterval(() => {
+      setCurrentIndex(
+        (prev) => (prev + 1) % activeTab.images.length
+      );
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [selected]);
+
+  // SAFE visible images
+  const visibleImages = activeTab.images
+    .map((_, i) => activeTab.images[(currentIndex + i) % activeTab.images.length])
+    .slice(0, Math.min(3, activeTab.images.length));
 
   return (
-    <section className="bg-neutral-50 py-12 px-4">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6">
-          30+ Awesome Amenities{" "}
-          <span style={{ color: "#00b4e6" }}> Await!</span>
+    <section className="bg-[#f7f7f6] py-20 px-4">
+      <div className="max-w-7xl mx-auto text-center">
+
+        {/* ---------- HEADING ---------- */}
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-12">
+          Discover Thoughtfully Curated <br />
+          <span className="text-[#f97316]">Lifestyle Amenities</span>
         </h2>
 
-        {/* Auto-rotating images */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-8 transition-all duration-500">
-          {visibleImages.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`Amenity ${index}`}
-              className="rounded-xl w-full md:w-1/3 object-cover"
-            />
-          ))}
-        </div>
-
-        {/* Tab buttons for blocks */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8">
-          {amenities.map(({ id, label }) => (
+        {/* ---------- TABS ---------- */}
+        <div className="flex justify-center gap-4 mb-14 flex-wrap">
+          {amenitiesData.map(({ id, label }) => (
             <button
               key={id}
-              className={`px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition ${
-                selected === id
-                  ? "text-white bg-gradient-to-r from-[#002954] to-[#00b4e6]"
-                  : "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
-              }`}
               onClick={() => setSelected(id)}
+              className={`px-8 py-3 rounded-full text-sm md:text-base font-medium transition-all ${
+                selected === id
+                  ? "bg-black text-white"
+                  : "bg-white border border-gray-400 hover:bg-gray-100"
+              }`}
             >
               {label}
             </button>
           ))}
         </div>
 
-        {/* Amenity items list */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto text-left">
-          {amenities
-            .find((amenity) => amenity.id === selected)
-            ?.items.map((item, index) => (
+        {/* ---------- IMAGE SLIDER ---------- */}
+        {activeTab.images.length > 0 && (
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8">
+
+            {visibleImages.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center bg-white border border-yellow-200 shadow-sm rounded-lg px-4 py-3 gap-3"
+                className="relative w-full md:w-1/3 overflow-hidden rounded-xl shadow-lg group"
               >
-                <i className="fas fa-check-circle text-blue-500"></i>
-                <span className="text-gray-700 font-medium">{item}</span>
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-[240px] md:h-[300px] object-cover transition duration-700 group-hover:scale-105"
+                />
+
+                {/* ---------- TITLE OVERLAY ---------- */}
+                <div className="absolute bottom-0 left-0 right-0 bg-white/70 backdrop-blur px-4 py-3">
+                  <p className="text-gray-900 font-medium tracking-wide text-center">
+                    {item.title}
+                  </p>
+                </div>
+
               </div>
             ))}
-        </div>
+
+          </div>
+        )}
+
       </div>
     </section>
   );

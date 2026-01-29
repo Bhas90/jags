@@ -1,0 +1,61 @@
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #25d366, #128c7e, #34b7f1, #075e54);
+  background-size: 400% 400%;
+  animation: colorShift 6s infinite ease-in-out;
+  color: white;
+  padding: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
+  transition: all 0.3s ease-in-out;
+  z-index: 9999;
+}
+
+.whatsapp-float-btn:hover {
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 0 25px rgba(37, 211, 102, 0.9);
+}
+
+.whatsapp-float-btn.active {
+  animation: zoomPulse 1.5s infinite, colorShift 6s infinite;
+}
+
+.whatsapp-icon {
+  width: 30px;
+  height: 30px;
+  color: white;
+}
+
+/* 🌈 Gradient background animation */
+@keyframes colorShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 💥 Zoom & Pulse animation */
+@keyframes zoomPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 35px rgba(52, 183, 241, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(18, 140, 126, 0.6);
+  }
+}

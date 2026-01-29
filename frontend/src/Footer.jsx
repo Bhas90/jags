@@ -7,17 +7,11 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto text-center">
         {/* Main Content */}
         <p className="text-[10px] font-light mb-3">
-          ©2025 | Canny Aravindam (Project RERA No.: P0220007242) Promoted by Authorised Channel Partner
+          ©2025 | Jagsons Pride (Project RERA No.: P02200001915) by Jagsons Projects </p>
 
         {/* Disclaimer */}
         <p className="text-[10px] text-gray-400 leading-relaxed mb-3">
           Disclaimer: The content mentioned on this website is for information purposes only, prices mentioned are subject to change without notice & properties mentioned are subject to availability. Images are for representation purposes only. This is not the official website. This website belongs to the authorised sales partner. We may also send updates to the mobile number/email ID registered with us.
-        </p>
-
-        {/* Digital Marketing Partner */}
-        <p className="text-[10px] text-gray-400 mb-3">
-          Digital Marketing Partner: : Aureal Consulting.
-        </p> 
         </p>
 
         {/* Links Section */}

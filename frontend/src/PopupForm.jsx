@@ -16,7 +16,6 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch IP once on mount
   useEffect(() => {
     axios
       .get("https://api64.ipify.org?format=json")
@@ -24,13 +23,9 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
       .catch(() => setFormData((prev) => ({ ...prev, ip: "unknown" })));
   }, []);
 
-  // Show popup after 10 seconds (only if externalShow is not controlling)
   useEffect(() => {
     if (typeof externalShow === "undefined") {
-      const timer = setTimeout(() => {
-        setShowPopup(true);
-      }, 10000);
-
+      const timer = setTimeout(() => setShowPopup(true), 10000);
       return () => clearTimeout(timer);
     }
   }, [externalShow]);
@@ -40,7 +35,6 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
     if (externalOnClose) externalOnClose();
   };
 
-  // Decide whether popup is shown: externalShow overrides internal
   const isShown = typeof externalShow === "boolean" ? externalShow : showPopup;
 
   const handleInputChange = (e) => {
@@ -56,14 +50,10 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
       newErrors.email = "Invalid email address";
-
-    const onlyDigits = formData.mobile.replace(/\D/g, "");
-    if (onlyDigits.length < 10)
+    if (formData.mobile.replace(/\D/g, "").length < 10)
       newErrors.mobile = "Mobile must be at least 10 digits";
-
     if (!formData.agreeTerms)
       newErrors.agreeTerms = "You must agree to the terms";
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -74,22 +64,30 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
     setIsSubmitting(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/home/send-email", // Match backend port here
+      const res = await axios.post(
+        "https://api.ramkyone-odyssey.in/home/send-email",
         {
-        name: formData.name,
-        email: formData.email,
-        mobile: formData.mobile.replace(/\D/g, ""),
-        ip: formData.ip,
-      });
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile.replace(/\D/g, ""),
+          ip: formData.ip,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
       alert(res.data.message || "Submitted successfully!");
-      setFormData((prev) => ({
+      setFormData({
         name: "",
         email: "",
         mobile: "",
         agreeTerms: false,
-        ip: prev.ip,
-      }));
+        ip: formData.ip,
+      });
       handleClose();
     } catch (err) {
       alert("Submission failed. Please try again.");
@@ -106,13 +104,13 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
         <button
           onClick={handleClose}
           className="absolute top-2 right-2 text-gray-600 hover:text-red-600 text-2xl"
-          aria-label="Close popup"
         >
           &times;
         </button>
         <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
           Get a Call Back
         </h2>
+
         <form className="space-y-4" onSubmit={handleSubmit} noValidate>
           <input
             type="text"
@@ -134,7 +132,9 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
             className="w-full p-3 border border-gray-300 rounded"
             required
           />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email}</p>
+          )}
 
           <PhoneInput
             country="in"
@@ -142,14 +142,13 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, mobile: value }))
             }
-            inputProps={{
-              name: "mobile",
-              required: true,
-            }}
+            inputProps={{ name: "mobile", required: true }}
             containerClass="phone-container"
             inputClass="phone-input"
           />
-          {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile}</p>}
+          {errors.mobile && (
+            <p className="text-red-500 text-sm">{errors.mobile}</p>
+          )}
 
           <div className="flex items-start text-sm">
             <input
@@ -161,17 +160,17 @@ const PopupForm = ({ show: externalShow, onClose: externalOnClose }) => {
               required
             />
             <span>
-                I authorize Canny Group and its representatives to Call, SMS, Email or WhatsApp me. I also accept{" "}
-                T&C {" "}and{" "} Pivacy Policy                 .
-              </span>
+              I accept <strong>Terms</strong> and <strong>Privacy Policy</strong>.
+            </span>
           </div>
+
           {errors.agreeTerms && (
             <p className="text-red-500 text-sm">{errors.agreeTerms}</p>
           )}
 
           <button
             type="submit"
-            className="w-full text-white p-3 rounded text-lg bg-[#00b4e6] hover:bg-[#002954] transition"
+            className="w-full text-white p-3 rounded text-lg bg-[#f97316] hover:bg-[#000000] transition"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : "Submit your request"}

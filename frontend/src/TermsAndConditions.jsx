@@ -1,5 +1,5 @@
 import React from "react";
-import tLogo from "./assets/canny_banner.png";
+import tLogo from "./assets/jagsons-pride-banner.png";
 
 const TermsAndConditions = () => {
   return (

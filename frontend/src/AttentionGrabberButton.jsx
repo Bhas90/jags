@@ -4,7 +4,7 @@ const AttentionGrabberButton = () => {
   const [showButton, setShowButton] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const message = encodeURIComponent("Hi, I'm interested in booking a site visit! Canny Aravindam");
+  const message = encodeURIComponent("Hi, I'm interested in booking a site visit! Jagsons Pride Project");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,7 +22,7 @@ const AttentionGrabberButton = () => {
 
   return (
     <a
-      href={`https://wa.me/919392925831?text=${message}`}
+      href={`https://wa.me/918886661686?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}

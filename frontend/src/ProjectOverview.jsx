@@ -1,41 +1,88 @@
 import React from "react";
-import { MapPin, Building2, Ruler, Layers, CalendarDays, IndianRupee } from "lucide-react";
+import {
+  Home,
+  Layers,
+  Ruler,
+  Building2,
+  ParkingSquare,
+  ShieldCheck,
+} from "lucide-react";
 
-const projectDetails = [
-  { label: "Type of Project", value: "Gated Community", icon: <Building2 className="w-4 h-4" style={{ color: '#4f1021' }}/> },
-  { label: "Location", value: "Bowrampet, Hyderabad.", icon: <MapPin className="w-4 h-4" style={{ color: '#4f1021' }}/> },
-  { label: "Land Area", value: "3.05 Acres", icon: <Ruler className="w-4 h-4" style={{ color: '#4f1021' }} /> },
-  { label: "No. of Towers", value: "03 Towers", icon: <Layers className="w-4 h-4" style={{ color: '#4f1021' }}/> },
-  { label: "Structure", value: "G+9 Floors" },
-  { label: "Ceiling to ceiling height", value: "10 FT." },
-  { label: "Clubhouse", value: "G+4 Floors(18,000 Sq. Ft)." },
-  { label: "Unit Variants", value: "2&3 BHK" },
-  { label: "Size Range", value: "1250 - 2300 Sq.Ft." },
-  { label: "Amenities", value: "50+ World-Class Amenities." },
-  
+/* ================= DATA ================= */
+
+const projectStats = [
+  {
+    icon: <Ruler className="w-7 h-7 text-[#1c4280]" />,
+    title: "4.75 Acres",
+    subtitle: "Gated Community",
+  },
+  {
+    icon: <Building2 className="w-7 h-7 text-[#1c4280]" />,
+    title: "8 Towers, 420 Flats",
+    subtitle: "Residential Blocks",
+  },
+  {
+    icon: <ParkingSquare className="w-7 h-7 text-[#1c4280]" />,
+    title: "2 Basements",
+    subtitle: "Parking Levels",
+  },
+  {
+    icon: <Home className="w-7 h-7 text-[#1c4280]" />,
+    title: "2 & 3 BHK",
+    subtitle: "Luxury Apartments",
+  },
+  {
+    icon: <Layers className="w-7 h-7 text-[#1c4280]" />,
+    title: "G + 5 Floors",
+    subtitle: "Structure",
+  },
+  {
+    icon: <ShieldCheck className="w-7 h-7 text-[#1c4280]" />,
+    title: "Higher UDS",
+    subtitle: "Ownership Advantage",
+  },
 ];
+
+/* ================= COMPONENT ================= */
 
 const ProjectOverview = () => {
   return (
-    <div className="max-w-3xl mx-auto mt-10 px-1 p-6">
-      <div className="bg-white rounded-xl shadow-lg p-4 border">
-        <h2 className="text-2xl font-bold text-center mb-6">Project <span style={{ color: '#00b4e6' }}>Overview</span></h2>
-        <div className="space-y-4">
-          {projectDetails.map((item, index) => (
+    <section
+      id="project-overview"
+      className="w-full bg-[#fafafa] border-y"
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-12 lg:px-4 py-8">
+
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
+
+          {projectStats.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center bg-gray-50 hover:bg-green-50 p-3 rounded-lg transition"
+              className="relative flex flex-col items-center justify-center text-center px-4 py-3"
             >
-              <div className="flex items-center font-semibold text-gray-700 gap-2">
-                {item.icon && item.icon}
-                {item.label}:
-              </div>
-              <div className="text-gray-900 text-sm sm:text-base mt-1 sm:mt-0">{item.value}</div>
+              {/* Icon */}
+              <div className="mb-3">{item.icon}</div>
+
+              {/* Main Text */}
+              <h3 className="text-base md:text-lg font-semibold text-gray-900">
+                {item.title}
+              </h3>
+
+              {/* Sub Text */}
+              <p className="text-sm text-gray-500 mt-1">
+                {item.subtitle}
+              </p>
+
+              {/* Divider (Desktop only) */}
+              {index !== projectStats.length - 1 && (
+                <span className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-10 w-px bg-gray-300" />
+              )}
             </div>
           ))}
+
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

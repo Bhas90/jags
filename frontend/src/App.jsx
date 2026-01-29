@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import PrivacyPolicy from "./PrivacyPolicy";
@@ -24,10 +24,4 @@ const AppContent = () => {
   );
 };
 
-const App = () => (
-  <Router>
-    <AppContent />
-  </Router>
-);
-
-export default App;
+export default AppContent;
