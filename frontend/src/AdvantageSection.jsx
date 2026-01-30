@@ -25,7 +25,7 @@ const AdvantageSection = () => {
   };
 
   return (
-    <section className="bg-gradient-to-r from-gray-50 via-white to-gray-100 py-10 px-6">
+    <section className="bg-gradient-to-r from-gray-50 via-white to-gray-100 py-12 px-6">
       <div className="max-w-7xl mx-auto text-center">
 
         {/* ---------- Heading ---------- */}
