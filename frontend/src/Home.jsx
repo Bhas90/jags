@@ -14,6 +14,8 @@ import FaqSection from "./FaqSection";
 import HeroBanner from "./HeroBanner";
 import PlansSection from "./PlansSection";
 import CustomerReviews from "./CustomerReviews";
+import WalkthroughVideo from "./WalkthroughVideo";
+
 
 const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -36,12 +38,12 @@ const Home = () => {
         <h2 className="section-heading"></h2>
         <WhyChooseUs />
       </div>
-            <div id="amenities">
+      <WalkthroughVideo />
+      <div id="amenities">
         <h2 className="section-heading"></h2>
         <AmenitiesSection />
       </div>
-      
-        <PlansSection/>
+      <PlansSection/>
       <div id="construction-progress">
         <h2 className="section-heading"></h2>
         <ConstructionProgress />
@@ -50,7 +52,6 @@ const Home = () => {
         <h2 className="section-heading"></h2>
         <AdvantageSection />
       </div>
-      
       <div id="banner-section">
         <Banner />
       </div>
@@ -63,7 +64,6 @@ const Home = () => {
         <h2 className="section-heading"></h2>
         <FaqSection />
       </div>
-      
       <WhatsAppButton />
       <PopupForm show={showPopup} onClose={() => setShowPopup(false)} />
     </>
