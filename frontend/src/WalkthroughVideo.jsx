@@ -13,9 +13,6 @@ const WalkthroughVideo = () => {
             Walkthrough Video <br />
             <span className="text-[#f97316]">Experience the Project Virtually</span>
           </h2>
-          <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
-            Take a quick guided tour and get a feel of the layout, spaces, and overall planning.
-          </p>
         </div>
 
         {/* Video Card */}
