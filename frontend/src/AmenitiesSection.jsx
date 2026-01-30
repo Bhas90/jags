@@ -3,19 +3,23 @@ import React, { useState, useEffect } from "react";
 /* ================= IMAGES ================= */
 
 import amenity1 from "./assets/badminton.webp";
-import amenity2 from "./assets/basketball.webp";
+import amenity2 from "./assets/half-basket-ball-court.png";
 import amenity3 from "./assets/gym.webp";
 import amenity4 from "./assets/hall.webp";
-import amenity5 from "./assets/play_area.webp";
+import amenity5 from "./assets/kids-play-area.png";
 import amenity6 from "./assets/jagsons-pride-rooftop-swimming-pool.jpg";
 import amenity7 from "./assets/walking_area.webp";
-import amenity8 from "./assets/spa.webp";
-import amenity9 from "./assets/yoga.webp";
+import amenity8 from "./assets/jagsons-pride-saloon-lundry.png";
+import amenity9 from "./assets/Yoga-and-meditation-hall.png";
 import amenity10 from "./assets/jagsons-pride-EV-charging.webp";
-import amenity11 from "./assets/jagsons-pride-driver-lounge.jpg";
-import amenity12 from "./assets/jagsons-pride-entrance-gate.jpg";
+import amenity11 from "./assets/jagsons-pride-supermarket.png";
+import amenity12 from "./assets/jagsons-pride-indoor-games.png";
 import amenity13 from "./assets/jagsons-pride-cricket-practice-net.webp";
-import amenity14 from "./assets/jagsons-pride-guest-rooms.webp";
+import amenity14 from "./assets/jagsons-pride-multipurpose-hall.png";
+import amenity15 from "./assets/senior-citizen-plaza.png";
+import amenity16 from "./assets/temple.png";
+import amenity17 from "./assets/central-park.png";
+import amenity18 from "./assets/pickl-ball-court.png";
 
 /* ================= DATA ================= */
 
@@ -26,13 +30,12 @@ const amenitiesData = [
     images: [
       { img: amenity3, title: "Air Conditioned Gymnasium" },
       { img: amenity6, title: "Rooftop Swimming Pool" },
-      { img: amenity4, title: "Multipurpose Banquet Hall" },
-      { img: amenity9, title: "Meditation & Yoga Hall" },
-      { img: amenity8, title: "Spa & Wellness Zone" },
-      { img: amenity11, title: "Drivers Lounge" },
-      { img: amenity14, title: "Guest Rooms" },
-      { img: amenity12, title: "Premium Entrance Lobby" },
-      { img: amenity10, title: "EV Charging Stations" },
+      { img: amenity4, title: "Banquet Hall" },
+      { img: amenity9, title: "Yoga and Meditation Hall" },
+      { img: amenity8, title: "Salon and Laundry" },
+      { img: amenity11, title: "Supermarket" },
+      { img: amenity14, title: "Multipurpose Hall" },
+      { img: amenity12, title: "Indoor Games" },
     ],
   },
   {
@@ -41,10 +44,14 @@ const amenitiesData = [
     images: [
       { img: amenity2, title: "Half Basketball Court" },
       { img: amenity13, title: "Cricket Practice Net" },
-      { img: amenity1, title: "Badminton Court" },
+      { img: amenity1, title: "Shuttle Badminton Court" },
       { img: amenity5, title: "Kids Play Area" },
       { img: amenity7, title: "Walking Track" },
-      { img: amenity12, title: "Senior Citizen Plaza" },
+      { img: amenity18, title: "Pickle Ball Court" },
+      { img: amenity16, title: "Temple" },
+      { img: amenity15, title: "Senior Citizen Plaza" },
+      { img: amenity17, title: "Central Park" },
+      { img: amenity10, title: "EV Charging Station" },
     ],
   },
 ];

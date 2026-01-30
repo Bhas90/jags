@@ -39,7 +39,7 @@ const features = [
   },
   {
     icon: <Star className="w-6 h-6 text-[#f97316]" />,
-    text: "Grand entrance lobby and thoughtfully curated lifestyle amenities",
+    text: "Beautiful Central Park and thoughtfully curated lifestyle Amenities",
   },
   
   /* ✅ NEW POINTS */

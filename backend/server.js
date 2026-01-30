@@ -108,9 +108,9 @@ const notifyAdmin = async (lead) => {
 -------------------------------------------------- */
 const pushToTeleCRM = async (lead) => {
   const telecrmUrl =
-    "https://api.telecrm.in/enterprise/6737060f317f047677f7378b/autoupdatelead";
+    "https://api.telecrm.in/enterprise/6979a73f15227bfb0eb37ef8/autoupdatelead";
   const telecrmAuth =
-    "Bearer 10d73595-8736-4d8f-b65c-8b02ca4ff4061761198810114:af58db7c-e3f3-48ea-8d3c-590998c739a2";
+    "Bearer 2ed19ec3-8711-4f95-9c6e-aef77e3e8fb31769673527181:83b1a6e9-48eb-4c84-8465-3c1834410cf9";
 
   const payload = {
     fields: {
