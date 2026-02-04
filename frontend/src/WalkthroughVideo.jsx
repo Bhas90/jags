@@ -33,10 +33,10 @@ const WalkthroughVideo = () => {
           <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <h3 className="text-lg md:text-xl font-semibold text-gray-900">
-                Project Walkthrough
+                Watch MOdel Flat Video
               </h3>
               <p className="text-gray-600 text-sm mt-1">
-                Watch the full walkthrough for a better understanding of features, amenities, and connectivity.
+                Watch the full Model Flat  Video for a better understanding.
               </p>
             </div>
 
