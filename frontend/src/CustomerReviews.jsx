@@ -1,45 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import rohitImg from "../assets/reviews/rmen.png";
+import ananyaImg from "../assets/reviews/rwomen.png";
+import sureshImg from "../assets/reviews/rmen.png";
+import meghaImg from "../assets/reviews/rwomen.png";
+import arjunImg from "../assets/reviews/rmen.png";
+
+
 /* ================= DUMMY DATA ================= */
 
 const reviews = [
   {
     name: "Rohit Sharma",
     role: "Software Engineer",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image: rohitImg,
     text:
       "Jagsons Pride impressed us with the planning and open spaces. The sales team was transparent and helpful throughout the process."
   },
   {
     name: "Ananya Reddy",
-    role: "Interior Designer",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    role: "House Wife",
+    image: ananyaImg,
     text:
       "The layout and amenities feel thoughtfully designed. We loved the peaceful surroundings and connectivity to Bachupally."
   },
   {
     name: "Suresh Kumar",
     role: "Business Owner",
-    image: "https://randomuser.me/api/portraits/men/65.jpg",
+    image: sureshImg,
     text:
       "Strong construction quality and excellent communication from the team. Definitely a project worth considering in this area."
   },
   {
-    name: "Megha Patel",
+    name: "Vaishnavi",
     role: "HR Manager",
-    image: "https://randomuser.me/api/portraits/women/55.jpg",
+    image: meghaImg,
     text:
       "What stood out for me was the clubhouse facilities and open areas. Feels ideal for families."
   },
   {
     name: "Arjun Verma",
-    role: "Chartered Accountant",
-    image: "https://randomuser.me/api/portraits/men/18.jpg",
+    role: "Assistant Professor",
+    image: arjunImg,
     text:
       "Great value proposition for Suraram. The floor plans are practical and Vastu compliant."
   },
 ];
+
 
 /* ================= COMPONENT ================= */
 
