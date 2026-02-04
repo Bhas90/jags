@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import rohitImg from "../assets/reviews/rmen.png";
-import ananyaImg from "../assets/reviews/rwomen.png";
-import sureshImg from "../assets/reviews/rmen.png";
-import meghaImg from "../assets/reviews/rwomen.png";
-import arjunImg from "../assets/reviews/rmen.png";
+import rohitImg from "./assets/reviews/rmen.png";
+import ananyaImg from "./assets/reviews/rwomen.png";
+import sureshImg from "./assets/reviews/rmen.png";
+import meghaImg from "./assets/reviews/rwomen.png";
+import arjunImg from "./assets/reviews/rmen.png";
 
 
 /* ================= DUMMY DATA ================= */
