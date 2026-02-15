@@ -6,14 +6,13 @@ const requestIp = require("request-ip");
 const axios = require("axios");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 /* --------------------------------------------------
    ✅ CORS SETUP — Restrict to trusted origins only
 -------------------------------------------------- */
 const allowedOrigins = [
-  "https://ramkyone-odyssey.in",
-  "https://www.ramkyone-odyssey.in",
+  "https://jagsonspride.in",
+  "https://www.jagsonspride.in",
   "http://localhost:5173", // keep for local dev
 ];
 
@@ -165,9 +164,3 @@ app.post("/home/send-email", async (req, res) => {
   }
 });
 
-/* --------------------------------------------------
-   ✅ Start Server
--------------------------------------------------- */
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
