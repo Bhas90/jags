@@ -63,7 +63,7 @@ const Banner = () => {
 
     try {
       const response = await axios.post(
-        "https://api.ramkyone-odyssey.in/home/send-email",
+        "https://api.jagsonspride.in/home/send-email",
         {
           name: formData.name,
           email: formData.email,
