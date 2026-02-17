@@ -6,105 +6,89 @@ const requestIp = require("request-ip");
 const axios = require("axios");
 
 const app = express();
+const PORT = 5000;
 
-/* --------------------------------------------------
-   ✅ CORS SETUP — Restrict to trusted origins only
--------------------------------------------------- */
-const allowedOrigins = [
-  "https://jagsonspride.in",
-  "https://www.jagsonspride.in",
-  "http://localhost:5173", // keep for local dev
-];
-
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  if (req.method === "OPTIONS") return res.sendStatus(200);
-  next();
-});
+/* ==================================================
+   ✅ CORS (SAME AS REFERENCE)
+================================================== */
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json());
 app.use(requestIp.mw());
 
-/* --------------------------------------------------
-   ✅ Health Check
--------------------------------------------------- */
+/* ==================================================
+   ✅ HEALTH CHECK
+================================================== */
 app.get("/home", (req, res) => {
-  res.status(200).json("Backend working");
+  res.status(200).json("Jagsons Pride backend working");
 });
 
-/* --------------------------------------------------
-   ✅ Gmail Transporter (Use App Password)
--------------------------------------------------- */
+/* ==================================================
+   ✅ GMAIL TRANSPORTER
+================================================== */
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "info@jagsonspride.in",
-    pass: "xuzk jcuo muly fzmt", // Gmail App password
+    pass: "xuzk jcuo muly fzmt", // Gmail App Password
   },
 });
 
-/* --------------------------------------------------
-   ✅ Auto Reply Email
--------------------------------------------------- */
+/* ==================================================
+   ✅ AUTO REPLY (USER)
+================================================== */
 const sendAutoReply = async (email, name) => {
-  const mailOptions = {
+  return transporter.sendMail({
     from: `"Jagsons Pride" <info@jagsonspride.in>`,
     to: email,
     subject: "Thank You for Your Interest!",
     html: `
       <div style="font-family:Arial;max-width:600px;margin:auto;border:1px solid #ddd;border-radius:8px;">
         <div style="background:#047bc5;color:#fff;padding:15px;text-align:center;">
-          <h2 style="margin:0;">Thank You for Contacting Us!</h2>
+          <h2>Thank You for Contacting Us!</h2>
         </div>
         <div style="padding:20px;">
           <p>Hi ${name},</p>
-          <p>Thank you for your interest in <b>Jagsons Pride</b>. Our team will get in touch soon.</p>
-          <p>For quick assistance, call <a href="tel:+919392925831">+91 93929 25831</a>.</p>
+          <p>Thank you for your interest in <b>Jagsons Pride</b>.</p>
+          <p>Our team will get in touch with you shortly.</p>
+          <p>If you have any questions, call us at 📞 <a href="tel:+918886661686">+91 888 666 1686</a></p>
         </div>
         <div style="background:#f5f5f5;padding:10px;text-align:center;">
           Warm regards,<br/>Team Jagsons Projects
         </div>
-      </div>`,
-  };
-  return transporter.sendMail(mailOptions);
+      </div>
+    `,
+  });
 };
 
-/* --------------------------------------------------
-   ✅ Admin Notification
--------------------------------------------------- */
+/* ==================================================
+   ✅ ADMIN NOTIFICATION
+================================================== */
 const notifyAdmin = async (lead) => {
-  const mailOptions = {
-    from: `"Jagsons Pride" <info@jagsonsprojects.com>`,
+  return transporter.sendMail({
+    from: `"Jagsons Pride" <info@jagsonspride.in>`,
     to: "info@jagsonspride.in",
     subject: "New Website Lead - Jagsons Pride",
     html: `
-      <div style="font-family:Arial;max-width:600px;margin:auto;border:1px solid #ddd;border-radius:8px;">
-        <div style="background:#047bc5;color:#fff;padding:15px;text-align:center;">
-          <h2 style="margin:0;">New Inquiry Received</h2>
-        </div>
-        <div style="padding:20px;">
-          <p><b>Name:</b> ${lead.name}</p>
-          <p><b>Email:</b> ${lead.email}</p>
-          <p><b>Mobile:</b> ${lead.mobile}</p>
-          <p><b>IP Address:</b> ${lead.ip}</p>
-        </div>
-      </div>`,
-  };
-  return transporter.sendMail(mailOptions);
+      <table style="width:100%;border-collapse:collapse;font-family:Arial;">
+        <tr><td><b>Name</b></td><td>${lead.name}</td></tr>
+        <tr><td><b>Email</b></td><td>${lead.email}</td></tr>
+        <tr><td><b>Mobile</b></td><td>${lead.mobile}</td></tr>
+        <tr><td><b>IP</b></td><td>${lead.ip}</td></tr>
+      </table>
+    `,
+  });
 };
 
-/* --------------------------------------------------
-   ✅ TeleCRM Integration
--------------------------------------------------- */
+/* ==================================================
+   ✅ TELECRM INTEGRATION (SAME STYLE)
+================================================== */
 const pushToTeleCRM = async (lead) => {
   const telecrmUrl =
     "https://api.telecrm.in/enterprise/6979a73f15227bfb0eb37ef8/autoupdatelead";
@@ -119,48 +103,57 @@ const pushToTeleCRM = async (lead) => {
       ip_address: lead.ip,
     },
     actions: [
-      { type: "SYSTEM_NOTE", text: "Lead Source: Jagsons Pride Website" },
+      {
+        type: "SYSTEM_NOTE",
+        text: "Lead Source: Jagsons Pride Website",
+      },
     ],
   };
 
-  try {
-    const response = await axios.post(telecrmUrl, payload, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: telecrmAuth,
-      },
-    });
-    console.log("✅ TeleCRM Response:", response.data);
-  } catch (err) {
-    console.error("❌ TeleCRM Error:", err.response?.data || err.message);
-  }
+  const response = await axios.post(telecrmUrl, payload, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: telecrmAuth,
+    },
+  });
+
+  return response.data;
 };
 
-/* --------------------------------------------------
-   ✅ Main Lead Route
--------------------------------------------------- */
+/* ==================================================
+   ✅ MAIN API ROUTE
+================================================== */
 app.post("/home/send-email", async (req, res) => {
   const { name, email, mobile } = req.body;
   const ip = req.clientIp || "Unknown";
 
+  console.log("📩 Incoming Lead:", { name, email, mobile, ip });
+
   if (!name || !email || !mobile) {
-    return res
-      .status(400)
-      .json({ error: "Name, email, and mobile are required." });
+    return res.status(400).json({
+      error: "Name, email, and mobile are required.",
+    });
   }
 
   try {
-    console.log("📩 New lead received:", { name, email, mobile, ip });
     await sendAutoReply(email, name);
     await notifyAdmin({ name, email, mobile, ip });
     await pushToTeleCRM({ name, email, mobile, ip });
 
-    res.status(200).json({ message: "Lead submitted successfully!" });
-  } catch (err) {
-    console.error("❌ FULL ERROR:", err);
-    res
-      .status(500)
-      .json({ error: "Internal Server Error", details: err.message });
+    res.status(200).json({
+      message: "Lead submitted successfully",
+    });
+  } catch (error) {
+    console.error("❌ ERROR:", error);
+    res.status(500).json({
+      error: "Something went wrong",
+    });
   }
 });
 
+/* ==================================================
+   ✅ START SERVER
+================================================== */
+app.listen(PORT, () => {
+  console.log(`🚀 Jagsons server running on http://localhost:${PORT}`);
+});
